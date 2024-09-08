@@ -60,10 +60,6 @@ app.get("/", (res: Response) => {
   res.send('<a href="/auth/google/android">Login with Google</a>');
 });
 
-app.get("/ping", (res: Response) => {
-  res.send("pong");
-})
-
 // Manejo de errores
 app.use(errorHandler.boomError);
 app.use(errorHandler.internalError);
