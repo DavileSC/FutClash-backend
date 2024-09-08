@@ -1,32 +1,37 @@
 import { Types } from "mongoose";
 
-export interface alternatePositions {
-    id: string;
-    shortLabel: string;
-    label: string;
-  }
-
-export interface playerObtained {
-    id: number
-    name: string
-    shieldUrl: string
-    typeCard: string
-    position: string
-    alternatePositions: alternatePositions[];
-    overallRating: number
-    price: number
-    obtainedDate: String
+// Interfaz para las posiciones alternas
+export interface AlternatePositions {
+  id: string;
+  shortLabel: string;
+  label: string;
 }
+
+// Interfaz para los jugadores obtenidos
+export interface PlayerObtained {
+  id: number;
+  name: string;
+  shieldUrl: string;
+  typeCard: string;
+  position: string; // La posición principal es un string (shortLabel)
+  alternatePositions?: AlternatePositions[] | null; // Un array opcional de posiciones alternas
+  overallRating: number;
+  price: number;
+  obtainedDate: string; // Fecha en formato string
+}
+
+// Interfaz del usuario que contiene la lista de jugadores obtenidos
 export interface User {
-    _id: Types.ObjectId;  // Cambiamos _id a ObjectId
-    googleId?: string | null; // Permitir que sea undefined o null
-    name: string;
-    email: string;
-    avatar: string;
-    alias: string;
-    playersObtained: playerObtained[]; // Lista de jugadores obtenidos
-    createdAt?: Date;
-    updatedAt?: Date;
+  _id: Types.ObjectId; // Usamos ObjectId de Mongoose
+  googleId?: string | null; // Puede ser undefined o null
+  name: string;
+  email: string;
+  avatar: string;
+  alias: string;
+  playersObtained: PlayerObtained[]; // Un array de jugadores obtenidos
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
+// Mock data de usuarios (para pruebas)
 export const users: { [key: string]: User } = {};

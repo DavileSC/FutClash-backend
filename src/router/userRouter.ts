@@ -6,5 +6,7 @@ const userRouter = Router();
 
 userRouter.get('/all', conditionalAuthMiddleware, userController.getAllUsers); // Requiere autenticación
 userRouter.get('/:id', conditionalAuthMiddleware, userController.getUserById); // Requiere autenticación
+userRouter.get('/ranking', conditionalAuthMiddleware, userController.usersRankedByTotalPrice);
+
 
 export default userRouter;

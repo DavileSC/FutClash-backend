@@ -16,10 +16,6 @@ export const gameDAO = {
     return await playersEntities.find();  // Devuelve todos los jugadores en la colección
   },
 
-  // Guardar un usuario (actualizar)
-  saveUser: async (user: User) => {
-    return await userEntities.findByIdAndUpdate(user._id, user, { new: true });
-  }
 };
 
 

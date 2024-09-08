@@ -16,5 +16,10 @@ export const userService = {
   },
   updateAlias: async (userId: string, alias: string) => {
     return await userDAO.updateAlias(userId, alias);
+  },
+
+  getUsersRankedByTotalPrice: async () => {
+    const usersRankedByTotalPrice = await userDAO.getUsersRankedByTotalPrice();
+    return usersRankedByTotalPrice;
   }
 };

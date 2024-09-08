@@ -3,9 +3,10 @@ import { userDAO } from '../daos/userDao';
 import { badRequest } from '@hapi/boom';
 import { PlayerDTO } from '../dtos/playersDTO';
 import { formatDate } from '../utils/formsDate';
+import { PlayerObtained } from '../interfaces';
 
 export const gameService = {
-  
+
   // Obtener todos los jugadores
   getAllPlayers: async () => {
     const players = await gameDAO.getAllPlayers();
@@ -18,42 +19,44 @@ export const gameService = {
   // Añadir un jugador a la subcolección de un usuario
   addPlayerToUser: async (userId: string, playerData: PlayerDTO) => {
     // Verificar si el usuario existe
-    const user = await userDAO.getUserById(userId);
+    const user = await userDAO.getUserById(userId); // Devuelve un objeto plano
     if (!user) {
       throw badRequest('Usuario no encontrado');
     }
 
     // Verificar si el jugador existe en la tabla players
-    const player = await gameDAO.findPlayerById(playerData.id);
-    
+    const player = await gameDAO.findPlayerById(playerData.id); // Devuelve un objeto plano
     if (!player) {
       throw badRequest('Jugador no encontrado');
     }
+
     const obtainedDate = formatDate(new Date());
-    console.log(obtainedDate);
-    
+
     // Construir el objeto del jugador en el formato deseado
-    const playerObtained = {
-      id: player.id.toString(),
-      name: `${player.firstName} ${player.lastName}`,  // Concatenar firstName y lastName
+    const playerObtained: PlayerObtained = {
+      id: player.id,
+      name: `${player.firstName} ${player.lastName}`,
       shieldUrl: player.shieldUrl,
-      typeCard: playerData.typeCard,  
-      position: player.position.shortLabel,  
-      alternatePositions: player.alternatePositions.map((altPos) => ({
-        id: altPos.id,
-        shortLabel: altPos.shortLabel,
-        label: altPos.label
-      })),  // Dejar como array de objetos
-      overallRating: player.overallRating.toString(),  
-      price: playerData.price,  
-      obtainedDate: obtainedDate, 
+      typeCard: playerData.typeCard,
+      position: player.position.shortLabel,
+      overallRating: player.overallRating,
+      price: playerData.price,
+      obtainedDate: obtainedDate,
+      // Verificación de alternatePositions para evitar `null`
+      alternatePositions: player.alternatePositions !== null && player.alternatePositions !== undefined
+        ? player.alternatePositions.map((altPos: any) => ({
+            id: altPos.id,
+            shortLabel: altPos.shortLabel,
+            label: altPos.label,
+          }))
+        : null, // Si es `null` o `undefined`, asignamos un array vacío
     };
 
     // Añadir el jugador a la subcolección playersObtained del usuario
     user.playersObtained.push(playerObtained);
 
     // Guardar los cambios en el usuario
-    await gameDAO.saveUser(user);
+    await userDAO.updateUser(user);
 
     return user;
   }

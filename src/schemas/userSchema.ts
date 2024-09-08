@@ -8,9 +8,9 @@ const playerObtainedSchema = new Schema(
     shieldUrl: { type: String, required: true },
     typeCard: { type: String, required: true },
     position: { type: String, required: true }, // Posición principal como cadena
-    alternatePositions: { type: Array, required: true }, // Posiciones alternas como cadena separada por comas
+    alternatePositions: { type: Array, default: undefined, required: false }, // Posiciones alternas como cadena separada por comas
     overallRating: { type: Number, required: true },
-    price: { type: Number, required: true },
+    price: { type: Number, required: true, min: 1, max: 15000000 },
     obtainedDate: { type: String, required: true }
   },
   { _id: false }

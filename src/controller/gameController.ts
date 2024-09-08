@@ -13,9 +13,7 @@ export const getAllPlayers = async (req: Request, res: Response, next: NextFunct
 export const addPlayerToUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.params;
-    const playerData = req.body; // Aquí recibiremos los datos del jugador desde el frontend
-    console.log(playerData);
-    
+    const playerData = req.body; // Aquí recibiremos los datos del jugador desde el frontend    
 
     const updatedUser = await gameService.addPlayerToUser(userId, playerData);
     res.status(200).json(updatedUser);

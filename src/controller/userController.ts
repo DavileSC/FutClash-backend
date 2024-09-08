@@ -38,5 +38,14 @@ export const userController = {
         } catch (error) {
             res.status(500).json({ message: 'Error updating alias', error });
         }
+    },
+
+    usersRankedByTotalPrice: async (req: Request, res: Response) => {
+        try {
+            const users = await userService.getUsersRankedByTotalPrice();
+            res.json(users);
+        } catch (error) {
+            res.status(500).json({ message: 'Error fetching users', error });
+        }
     }
 };
