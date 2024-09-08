@@ -17,11 +17,10 @@ export const authController = {
       }
 
       // Generar JWT para el usuario autenticado
-      const token = generateToken(user._id); // Ahora _id está garantizado
+      const token = generateToken(user._id);
 
       // Devolver el token al cliente
       res.json({ token, message: "Login successful!" });
-
     } catch (error) {
       console.error("Error during Google login:", error);
       res.status(500).json({ message: 'Error during Android login', error });
@@ -44,5 +43,29 @@ export const authController = {
       console.error("Error during Google login:", error);
       res.status(500).json({ message: 'Error during iOS login', error });
     }
-  }
+  },
+
+  // Nuevo controlador para autenticación en Web
+  googleWebCallback: async (req: Request, res: Response) => {
+    try {
+      const userProfile = req.body;
+
+      // Verificar o crear el usuario
+      const user = await authService.handleGoogleLogin(userProfile);
+
+      // Verificar que _id no sea undefined
+      if (!user._id) {
+        throw new Error("User ID is missing after Google login.");
+      }
+
+      // Generar JWT para el usuario autenticado
+      const token = generateToken(user._id);
+
+      // Devolver el token al cliente
+      res.json({ token, message: "Login successful!" });
+    } catch (error) {
+      console.error("Error during Google login:", error);
+      res.status(500).json({ message: 'Error during Web login', error });
+    }
+  },
 };

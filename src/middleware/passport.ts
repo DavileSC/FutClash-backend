@@ -26,6 +26,15 @@ passport.use('google-ios', new GoogleStrategy({
   return done(null, profile);
 }));
 
+// Configurar Passport para Web (pruebas en navegador)
+passport.use('google-web', new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID_WEB!,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET_WEB!,  // Para aplicaciones web sí es necesario el secret
+  callbackURL: "/auth/google/callback/web"
+}, (accessToken, refreshToken, profile, done) => {
+  return done(null, profile);
+}));
+
 passport.serializeUser((user, done) => {
   done(null, user as User);
 });
