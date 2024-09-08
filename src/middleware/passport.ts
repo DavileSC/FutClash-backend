@@ -12,7 +12,7 @@ interface User {
 passport.use('google-android', new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID_ANDROID!,
   clientSecret: '',
-  callbackURL: "/auth/google/callback/android"
+  callbackURL: "https://fut-clash-backend-66bvasnrh-davilescs-projects.vercel.app/auth/google/callback/android"
 }, (accessToken, refreshToken, profile, done) => {
   return done(null, profile);
 }));
@@ -21,7 +21,7 @@ passport.use('google-android', new GoogleStrategy({
 passport.use('google-ios', new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID_IOS!,
   clientSecret: '',
-  callbackURL: "/auth/google/callback/ios"
+  callbackURL: "https://fut-clash-backend-66bvasnrh-davilescs-projects.vercel.app/auth/google/callback/ios"
 }, (accessToken, refreshToken, profile, done) => {
   return done(null, profile);
 }));
@@ -30,7 +30,7 @@ passport.use('google-ios', new GoogleStrategy({
 passport.use('google-web', new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID_WEB!,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET_WEB!,  // Para aplicaciones web sí es necesario el secret
-  callbackURL: "/auth/google/callback/web"
+  callbackURL: "https://fut-clash-backend-66bvasnrh-davilescs-projects.vercel.app/auth/google/callback/web"
 }, (accessToken, refreshToken, profile, done) => {
   return done(null, profile);
 }));
