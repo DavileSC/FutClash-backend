@@ -1,0 +1,6 @@
+{
+  "logConfig": {
+    "logFolder": "./src/log//",
+    "logFile": "identity-%DATE%.log"
+  }
+}
