@@ -2,40 +2,36 @@
 import { NextFunction, Response, Request } from "express";
 import { TOKEN_EXPIRED, UNAUTHORIZED } from "../const/sessionError";
 import { JwtPayload } from "jsonwebtoken";
-import { excludedRoutes } from "../const/excludedRoutes";
 import { logger } from "../log/logger";
 import { verifyToken } from "../utils/jwt";
 
 async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     const authorizationHeader = req.header('Authorization');
 
+    // Verificar si la cabecera 'Authorization' está presente
     if (!authorizationHeader) {
-        logger.warn("Missing Authorization header");
-        return res.status(401).send(UNAUTHORIZED); // Mejor manejo de error para header faltante
+        logger.warn("Authorization header missing");
+        return res.status(401).json({ error: 'Missing Authorization header' });
     }
 
-    const token = authorizationHeader.split(' ')[1]; // Espera el token en formato "Bearer TOKEN"
+    // Verificar si el formato de la cabecera es correcto (debería ser "Bearer TOKEN")
+    const [bearer, token] = authorizationHeader.split(' ');
+
+    if (bearer !== 'Bearer' || !token) {
+        logger.warn("Invalid Authorization format");
+        return res.status(401).json({ error: 'Invalid Authorization format. Expected "Bearer TOKEN"' });
+    }
 
     try {
+        // Verificar y decodificar el token
         const tokenData = await verifyToken(token) as JwtPayload;
         req.body.user_id = tokenData.id;
-        next(); // Continua si el token es válido
+        next(); // Continúa si el token es válido
     } catch (e) {
-        logger.error("Error verifying token:", e);
-        res.status(401).send(TOKEN_EXPIRED); // Error claro de token expirado o inválido
+        logger.error("Token verification failed", e);
+        return res.status(401).json({ error: 'Token expired or invalid' }); // Error claro de token expirado o inválido
     }
 }
+
 
 export { authMiddleware };
-
-function conditionalAuthMiddleware(req: Request, res: Response, next: NextFunction) {
-
-    if (req.method === 'GET' && excludedRoutes.some(route => route.test(req.path.toString()))) {
-        return next();
-    } else if (req.method === 'POST' && excludedRoutes.some(route => route.test(req.path.toString()))) {
-        return next();
-    }
-    return authMiddleware(req, res, next);
-}
-
-export { conditionalAuthMiddleware };

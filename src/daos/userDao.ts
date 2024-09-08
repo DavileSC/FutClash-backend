@@ -35,12 +35,16 @@ export const userDAO = {
 
   getUsersRankedByTotalPrice: async () => {
     return await userEntities.aggregate([
-      { $unwind: "$playersObtained" },
       {
-        $group: {
-          _id: "$_id",
-          name: { $first: "$name" },
-          totalValue: { $sum: "$playersObtained.price" }
+        $project: {
+          name: 1,
+          totalValue: {
+            $cond: {
+              if: { $gt: [{ $size: "$playersObtained" }, 0] }, // Si tienen jugadores obtenidos
+              then: { $sum: "$playersObtained.price" },         // Suma los precios de los jugadores obtenidos
+              else: 0                                           // Si no tienen jugadores, el total es 0
+            }
+          }
         }
       },
       { $sort: { totalValue: -1 } } // Ordenar de mayor a menor

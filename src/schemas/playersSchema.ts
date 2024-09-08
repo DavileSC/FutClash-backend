@@ -5,6 +5,7 @@ export const playerSchema = new Schema(
     id: { type: Number, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
+    commonName: { type: String, required: true },
     shieldUrl: { type: String, required: true },
     position: {
       id: { type: String, required: true },

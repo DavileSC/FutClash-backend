@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { userController } from '../controller/userController';
-import { conditionalAuthMiddleware } from '../middleware/context';
+import { authMiddleware } from '../middleware/context';
 
 const userRouter = Router();
 
-userRouter.get('/all', conditionalAuthMiddleware, userController.getAllUsers); // Requiere autenticación
-userRouter.get('/:id', conditionalAuthMiddleware, userController.getUserById); // Requiere autenticación
-userRouter.get('/ranking', conditionalAuthMiddleware, userController.usersRankedByTotalPrice);
-
+// Colocar la ruta de ranking antes de la ruta con parámetros
+userRouter.get('/ranking', authMiddleware, userController.usersRankedByTotalPrice); // Requiere autenticación
+userRouter.get('/all', authMiddleware, userController.getAllUsers); // Requiere autenticación
+userRouter.get('/:id', authMiddleware, userController.getUserById); // Requiere autenticación
 
 export default userRouter;

@@ -6,14 +6,18 @@ import { generateToken } from '../utils/jwt';
 export const authController = {
   googleAndroidCallback: async (req: Request, res: Response) => {
     try {
-      // Usar los datos que provienen del body en lugar de req.user
       const userProfile = req.body;
 
       // Verificar o crear el usuario
       const user = await authService.handleGoogleLogin(userProfile);
 
+      // Verificar que _id no sea undefined
+      if (!user._id) {
+        throw new Error("User ID is missing after Google login.");
+      }
+
       // Generar JWT para el usuario autenticado
-      const token = generateToken(user._id);
+      const token = generateToken(user._id); // Ahora _id está garantizado
 
       // Devolver el token al cliente
       res.json({ token, message: "Login successful!" });
@@ -28,6 +32,12 @@ export const authController = {
     try {
       const userProfile = req.body;
       const user = await authService.handleGoogleLogin(userProfile);
+
+      // Verificar que _id no sea undefined
+      if (!user._id) {
+        throw new Error("User ID is missing after Google login.");
+      }
+
       const token = generateToken(user._id);
       res.json({ token, message: "Login successful!" });
     } catch (error) {

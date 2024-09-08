@@ -1,6 +1,5 @@
 // src/services/authService.ts
 import { userDAO } from '../daos/userDao';
-import { CreateUserDTO } from '../dtos/userDTO';
 import { User } from '../interfaces';
 
 export const authService = {
@@ -11,7 +10,7 @@ export const authService = {
 
       if (!user) {
         // Crear al usuario sin alias y sin playersObtained
-        const userData: CreateUserDTO = {
+        const userData: User = {
           googleId: userProfile.id || "", // Asegúrate de que no sea null
           name: userProfile.displayName,
           email: userProfile.emails[0].value,

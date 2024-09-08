@@ -36,8 +36,13 @@ async function verifyToken(jwtToken: string): Promise<string | JwtPayload> {
     const decoded = await new Promise<string | JwtPayload>((resolve, reject) => {
       jwt.verify(jwtToken, JWT_SECRET, (err, decoded) => {
         if (err) {
-          logger.error(`Error trying to verify token: ${err.message}`);
-          reject(new Error("Token expired or invalid"));
+          if (err.name === 'TokenExpiredError') {
+            logger.error('Token has expired');
+            reject(new Error('Token has expired'));
+          } else {
+            logger.error('Invalid token');
+            reject(new Error('Invalid token'));
+          }
         } else {
           resolve(decoded as string | JwtPayload);
         }

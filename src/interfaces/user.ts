@@ -1,11 +1,5 @@
 import { Types } from "mongoose";
-
-// Interfaz para las posiciones alternas
-export interface AlternatePositions {
-  id: string;
-  shortLabel: string;
-  label: string;
-}
+import { AlternatePositions } from "./alternatePositions";
 
 // Interfaz para los jugadores obtenidos
 export interface PlayerObtained {
@@ -22,8 +16,8 @@ export interface PlayerObtained {
 
 // Interfaz del usuario que contiene la lista de jugadores obtenidos
 export interface User {
-  _id: Types.ObjectId; // Usamos ObjectId de Mongoose
-  googleId?: string | null; // Puede ser undefined o null
+  _id?: Types.ObjectId; // Hacemos que sea opcional con "?" porque aún no se genera cuando creamos el usuario
+  googleId?: string | null;
   name: string;
   email: string;
   avatar: string;
