@@ -9,10 +9,10 @@ const router = Router();
 router.get('/google/android', passport.authenticate('google-android', { scope: ['profile', 'email'] }));
 
 // Cambia temporalmente GET por POST para probar en ThunderClient
-router.post('/google/callback/android', authController.googleAndroidCallback); 
+router.get('/google/callback/android', authController.googleAndroidCallback); 
 
 // Rutas de autenticación para iOS
 router.get('/google/ios', passport.authenticate('google-ios', { scope: ['profile', 'email'] }));
-router.post('/google/callback/ios', authController.googleIosCallback);
+router.get('/google/callback/ios', authController.googleIosCallback);
 
 export default router;
