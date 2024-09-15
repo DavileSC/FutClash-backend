@@ -1,0 +1,11 @@
+{
+    "rewrites": [
+      { "source": "/auth/google/web", "destination": "/api/auth/google-web" },
+      { "source": "/auth/google/android", "destination": "/api/auth/google-android" },
+      { "source": "/auth/google/ios", "destination": "/api/auth/google-ios" },
+      { "source": "/auth/google/web/callback", "destination": "/api/auth/callback?platform=web" },
+      { "source": "/auth/google/android/callback", "destination": "/api/auth/callback?platform=android" },
+      { "source": "/auth/google/ios/callback", "destination": "/api/auth/callback?platform=ios" }
+    ]
+  }
+  

@@ -83,9 +83,9 @@ authRouter.get("/google/web", passport.authenticate("google-web", { scope: ["pro
 authRouter.get("/google/android", passport.authenticate("google-android", { scope: ["profile", "email"] }));
 authRouter.get("/google/ios", passport.authenticate("google-ios", { scope: ["profile", "email"] }));
 
-// Callbacks
+// Callbacks locales
 authRouter.get(
-  "/google/web/callback",
+  "/google/callback/web",
   passport.authenticate("google-web", { failureRedirect: "/auth/google/web" }),
   (req: Request, res: Response) => {
     res.redirect(`${process.env.FRONTEND_URL}?token=YOUR_TOKEN`);
@@ -93,7 +93,7 @@ authRouter.get(
 );
 
 authRouter.get(
-  "/google/android/callback",
+  "/google/callback/android",
   passport.authenticate("google-android", { failureRedirect: "/auth/google/android" }),
   (req: Request, res: Response) => {
     res.redirect(`${process.env.FRONTEND_URL}?token=YOUR_TOKEN`);
@@ -101,7 +101,7 @@ authRouter.get(
 );
 
 authRouter.get(
-  "/google/ios/callback",
+  "/google/callback/ios",
   passport.authenticate("google-ios", { failureRedirect: "/auth/google/ios" }),
   (req: Request, res: Response) => {
     res.redirect(`${process.env.FRONTEND_URL}?token=YOUR_TOKEN`);
