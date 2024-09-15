@@ -1,4 +1,2 @@
 export const TOKEN_EXPIRED = "TOKEN_EXPIRED";
-export const INVALID_SESSION = "INVALID_SESSION";
-export const BAD_REQUEST = "BAD_REQUEST";
 export const UNAUTHORIZED = "UNAUTHORIZED";

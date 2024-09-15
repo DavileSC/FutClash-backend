@@ -1,31 +1,32 @@
 import { Types } from "mongoose";
-import { AlternatePositions } from "./alternatePositions";
 
 // Interfaz para los jugadores obtenidos
 export interface PlayerObtained {
-  id: number;
+  _id?: Types.ObjectId;
   name: string;
-  shieldUrl: string;
   typeCard: string;
-  position: string; // La posición principal es un string (shortLabel)
-  alternatePositions?: AlternatePositions[] | null; // Un array opcional de posiciones alternas
+  position: []; // La posición principal es un string (shortLabel)
   overallRating: number;
   price: number;
   obtainedDate: string; // Fecha en formato string
 }
 
-// Interfaz del usuario que contiene la lista de jugadores obtenidos
 export interface User {
-  _id?: Types.ObjectId; // Hacemos que sea opcional con "?" porque aún no se genera cuando creamos el usuario
-  googleId?: string | null;
+  _id?: Types.ObjectId; // Obligatorio
+  googleId: string;
   name: string;
   email: string;
   avatar: string;
   alias: string;
-  playersObtained: PlayerObtained[]; // Un array de jugadores obtenidos
+  playersObtained?: PlayerObtained[]; // Array de jugadores obtenidos
+  deviceType: 'Android' | 'iOS'; // Nuevo campo para el tipo de dispositivo
+  platformGame: 'PlayStation' | 'Xbox' | 'PC' | 'Nintendo'; // Plataforma del usuario
+  friends?: Types.ObjectId[]; // IDs de otros usuarios (amigos)
+  privacyPolicyAccepted: boolean;
+  privacyPolicyAcceptedAt: Date; 
+  termsVersion: string; 
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-// Mock data de usuarios (para pruebas)
 export const users: { [key: string]: User } = {};

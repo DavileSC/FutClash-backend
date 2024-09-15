@@ -29,9 +29,12 @@ passport.use('google-ios', new GoogleStrategy({
 // Configurar Passport para Web (pruebas en navegador)
 passport.use('google-web', new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID_WEB!,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET_WEB!,  // Para aplicaciones web sí es necesario el secret
-  callbackURL: "https://fut-clash-backend.vercel.app/auth/google/callback/web"
-}, (accessToken, refreshToken, profile, done) => {
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET_WEB!,
+  callbackURL: "http://localhost:3000/auth/google/callback/web", // O la URL de producción si lo estás probando en Vercel
+  passReqToCallback: true, // Habilitar para obtener el req en el callback
+}, (req, accessToken, refreshToken, profile, done) => {
+  // Loguear el perfil recibido desde Google
+  console.log('Google profile:', profile);
   return done(null, profile);
 }));
 

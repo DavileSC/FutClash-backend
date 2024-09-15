@@ -1,5 +1,5 @@
 import "dotenv/config";
-import jwt, { sign, verify, JwtPayload } from "jsonwebtoken";
+import jwt, { sign, JwtPayload } from "jsonwebtoken";
 import { logger } from "../log/logger";
 import { ObjectId, Types } from "mongoose";
 import { refreshTokenEntity } from "../entities/refreshTokenEntities";
@@ -10,7 +10,7 @@ const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "your_refresh_jwt_s
 // Genera un token de acceso
 function generateToken(id: Types.ObjectId) { // Cambiado a Types.ObjectId
   const token = sign({ id }, JWT_SECRET, { expiresIn: "1h" }); // Expira en 15 minutos
-  return token;
+  return {token};
 }
 
 // Genera un token de refresco y lo almacena en la base de datos

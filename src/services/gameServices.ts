@@ -37,7 +37,7 @@ export const gameService = {
     }
 
     // Verificar si el jugador existe por ID
-    const player = await gameDAO.findPlayerById(playerData.id); // Buscar por ID
+    const player = await gameDAO.findPlayerById(playerData._id); // Buscar por ID
     if (!player) {
       throw badRequest('Jugador no encontrado');
     }
@@ -46,21 +46,13 @@ export const gameService = {
 
     // Construir el objeto del jugador en el formato deseado
     const playerObtained: PlayerObtained = {
-      id: player.id,
+      _id: player._id,
       name: `${player.firstName} ${player.lastName}`,
-      shieldUrl: player.shieldUrl,
       typeCard: playerData.typeCard, // Ajustar si es necesario
-      position: player.position.shortLabel,
+      position: player.position,
       overallRating: player.overallRating,
       price: playerData.price, // Ajustar si es necesario
-      obtainedDate: obtainedDate,
-      alternatePositions: player.alternatePositions !== null && player.alternatePositions !== undefined
-        ? player.alternatePositions.map((altPos: any) => ({
-            id: altPos.id,
-            shortLabel: altPos.shortLabel,
-            label: altPos.label,
-          }))
-        : null,
+      obtainedDate: obtainedDate
     };
 
     // Añadir el jugador a la subcolección playersObtained del usuario

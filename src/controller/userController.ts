@@ -1,51 +1,86 @@
-// src/controller/userController.ts
-import { Request, Response } from 'express';
-import { userService } from '../services/userServices';
+import { Request, Response } from "express";
+import { userService } from "../services/userServices";
 
 export const userController = {
-
     // Obtener todos los usuarios
-    getAllUsers: async (req: Request, res: Response) => {
+    async getAllUsers(req: Request, res: Response) {
         try {
-            const users = await userService.getAllUsers(); // Llama al servicio para obtener todos los usuarios
-            res.json(users); // Devuelve los usuarios como JSON
+            const users = await userService.getAllUsers();
+            return res.json(users); // Devolver todos los usuarios en formato UserDTO
         } catch (error) {
-            res.status(500).json({ message: 'Error fetching users', error });
+            return res.status(500).json({ message: "Error fetching users", error });
         }
     },
 
-    // Obtener un solo usuario por id
-    getUserById: async (req: Request, res: Response) => {
+    // Obtener un usuario por id
+    async getUserById(req: Request, res: Response) {
         try {
-            const userId = req.params.id; // Obtiene el id del usuario de los parámetros
-            const user = await userService.getUserById(userId); // Llama al servicio para obtener el usuario
+            const userId = req.params.id;
+            const user = await userService.getUserById(userId);
             if (user) {
-                res.json(user); // Devuelve el usuario si se encuentra
+                return res.json(user);
             } else {
-                res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ message: "User not found" });
             }
         } catch (error) {
-            res.status(500).json({ message: 'Error fetching user', error });
+            return res.status(500).json({ message: "Error fetching user", error });
         }
     },
 
     // Actualizar el alias de un usuario
-    updateAlias: async (req: Request, res: Response) => {
+    async updateAlias(req: Request, res: Response) {
         try {
-            const { userId, alias } = req.body; // Asumimos que el userId y alias vienen en el body
+            const { userId, alias } = req.body;
             const updatedUser = await userService.updateAlias(userId, alias);
-            res.json({ message: "Alias updated successfully!", user: updatedUser });
+            return res.json({ message: "Alias updated successfully!", user: updatedUser });
         } catch (error) {
-            res.status(500).json({ message: 'Error updating alias', error });
+            return res.status(500).json({ message: "Error updating alias", error });
         }
     },
 
-    usersRankedByTotalPrice: async (req: Request, res: Response) => {
+    // Obtener usuarios ordenados por el precio total de los jugadores obtenidos
+    async usersRankedByTotalPrice(req: Request, res: Response) {
         try {
             const users = await userService.getUsersRankedByTotalPrice();
-            res.json(users);
+            return res.json(users);
         } catch (error) {
-            res.status(500).json({ message: 'Error fetching users', error });
+            return res.status(500).json({ message: "Error fetching users", error });
         }
-    }
+    },
+
+    async deleteAccount(req: Request, res: Response) {
+        const userId = req.body.userId;
+        if (!userId) {
+            return res.status(401).send("Unauthorized");
+        }
+        try {
+            const deleted = await userService.deleteUserById(userId);
+            if (deleted) {
+                return res.status(200).send({ message: "Account deleted successfully" });
+            } else {
+                return res.status(404).send({ message: "User not found" });
+            }
+        } catch (error: any) {
+            return res.status(500).send({ message: error.message });
+        }
+    },
+
+    // Desactivar la cuenta
+    async deactivateAccount(req: Request, res: Response) {
+        const userId = req.body.userId;
+        if (!userId) {
+            return res.status(401).send("Unauthorized");
+        }
+
+        try {
+            const deactivated = await userService.deactivateUserById(userId);
+            if (deactivated) {
+                return res.status(200).send({ message: "Account deactivated successfully" });
+            } else {
+                return res.status(404).send({ message: "User not found" });
+            }
+        } catch (error: any) {
+            return res.status(500).send({ message: error.message });
+        }
+    },
 };

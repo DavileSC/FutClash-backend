@@ -1,22 +1,22 @@
-// src/dao/userDAO.ts
-
 import { Types } from "mongoose";
 import { userEntities } from "../entities/userEntities";
+import { PartialCreateUserDTO, UpdateUserDTO, UserProfileDTO } from "../dtos/userDto";
 import { User } from "../interfaces";
 
 export const userDAO = {
-  findByGoogleId: async (googleId: string) => {
-    return await userEntities.findOne({ googleId });
-  },
 
-  createUser: async (userData: any) => {
+  createUser: async (userData: PartialCreateUserDTO) => {
     const newUser = new userEntities(userData);
     return await newUser.save();
   },
 
+  findByGoogleId: async (googleId: string) => {
+    return await userEntities.findOne({ googleId });
+  },
+
   // Actualiza un usuario 
-  updateUser: async (user: User) => {
-    return await userEntities.findByIdAndUpdate(user._id, user, { new: true });
+  updateUser: async (user: UpdateUserDTO) => {
+    return await userEntities.findByIdAndUpdate(user._id, user, { new: true }).lean();
   },
 
   // Obtener todos los usuarios
@@ -27,6 +27,10 @@ export const userDAO = {
   // Obtener un usuario por id
   getUserById: async (userId: string) => {
     return await userEntities.findById(userId); // Buscar por ObjectId
+  },
+
+  getUserByEmail: async (email: string) => {
+    return await userEntities.findOne({ email });
   },
 
   updateAlias: async (userId: string, alias: string) => {
@@ -49,5 +53,19 @@ export const userDAO = {
       },
       { $sort: { totalValue: -1 } } // Ordenar de mayor a menor
     ]);
+  },
+
+  // Eliminar un usuario por id
+  deleteUserById: async (userId: string) => {
+    return await userEntities.findByIdAndDelete(userId); // Elimina un usuario por su id
+  },
+
+  // Desactivar un usuario (estableciendo un campo "activo" en falso)
+  deactivateUserById: async (userId: string) => {
+    return await userEntities.findByIdAndUpdate(
+      userId,
+      { isActive: false }, // Cambiar estado a "inactivo"
+      { new: true }
+    );
   }
 };

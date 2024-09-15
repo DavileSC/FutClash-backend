@@ -1,25 +1,46 @@
-// src/services/userService.ts
-
-import { Types } from "mongoose";
 import { userDAO } from "../daos/userDao";
+import { PartialCreateUserDTO } from "../dtos/userDto";
+import { User } from "../interfaces";
 
+// Objeto userService con todas las funciones exportadas
 export const userService = {
+  // Crear un nuevo usuario
+  async createUser(userProfile: PartialCreateUserDTO) {
+    return await userDAO.createUser(userProfile);
+  },
+
+  // Obtener un usuario por email
+  async getUserByEmail(email: string) {
+    return await userDAO.getUserByEmail(email);
+  },
 
   // Obtener todos los usuarios
-  getAllUsers: async () => {
-    return await userDAO.getAllUsers(); // Llama al DAO para obtener todos los usuarios
+  async getAllUsers() {
+    return await userDAO.getAllUsers();
   },
 
   // Obtener un usuario por id
-  getUserById: async (userId: string) => {
-    return await userDAO.getUserById(userId); // Llama al DAO para obtener un usuario por su id
+  async getUserById(userId: string) {
+    return await userDAO.getUserById(userId);
   },
-  updateAlias: async (userId: string, alias: string) => {
+
+  // Actualizar el alias de un usuario
+  async updateAlias(userId: string, alias: string) {
     return await userDAO.updateAlias(userId, alias);
   },
 
-  getUsersRankedByTotalPrice: async () => {
-    const usersRankedByTotalPrice = await userDAO.getUsersRankedByTotalPrice();
-    return usersRankedByTotalPrice;
-  }
+  // Obtener usuarios ordenados por el precio total de los jugadores obtenidos
+  async getUsersRankedByTotalPrice() {
+    return await userDAO.getUsersRankedByTotalPrice();
+  },
+
+  // Eliminar una cuenta de usuario
+  async deleteUserById(userId: string) {
+    return await userDAO.deleteUserById(userId);
+  },
+
+  // Desactivar una cuenta de usuario
+  async deactivateUserById(userId: string) {
+    return await userDAO.deactivateUserById(userId);
+  },
 };

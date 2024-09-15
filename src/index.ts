@@ -9,10 +9,11 @@ import db from "./config/mongo";
 import * as dotenv from "dotenv";
 import fs from "fs";
 import expressWinston from 'express-winston';
-import authRouter from './router/authRouter'; // Asegúrate de tener configurado el router de autenticación
 import './middleware/passport'; // Importar la configuración de Passport
+import authRouter from "./router/authRouter";
 import userRouter from "./router/userRouter";
 import gameRouter from "./router/gameRouter";
+import resultRouter from "./router/resultRouter";
 
 dotenv.config();
 const app = express();
@@ -53,6 +54,7 @@ app.use(passport.session());
 // Rutas de autenticación
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
+app.use('/result', resultRouter);
 app.use('/game', gameRouter);
 
 // Ejemplo de ruta para verificar que el servidor está en funcionamiento
