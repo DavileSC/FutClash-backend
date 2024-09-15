@@ -8,6 +8,10 @@
   ],
   "routes": [
     {
+      "src": "/",
+      "dest": "/api/index"
+    },
+    {
       "src": "/auth/google/web",
       "dest": "/api/auth/google-web"
     },
