@@ -19,7 +19,7 @@ export default function handler(req : VercelRequest, res : VercelResponse) {
       return res.redirect('/login');
   }
 
-  passport.authenticate(strategy, { failureRedirect: '/' }, (err, user) => {
+  passport.authenticate(strategy, { failureRedirect: '/' }, (err : any, user : any) => {
     if (err || !user) {
       return res.redirect('/login');
     }
