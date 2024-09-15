@@ -1,6 +1,6 @@
 import passport from 'passport';
-import { Request, Response } from 'express';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default function handler(req : Request, res : Response) {
+export default function handler(req : VercelRequest, res : VercelResponse) {
   passport.authenticate('google-web', { scope: ['profile', 'email'] })(req, res);
 }

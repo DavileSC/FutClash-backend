@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
 import passport from 'passport';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default function handler(req: Request, res: Response) {
+export default function handler(req : VercelRequest, res : VercelResponse) {
   const platform = req.query.platform; // Detecta la plataforma desde una query string
   
   let strategy;

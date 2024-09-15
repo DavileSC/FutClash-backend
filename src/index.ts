@@ -57,11 +57,6 @@ app.use('/users', userRouter);
 app.use('/result', resultRouter);
 app.use('/game', gameRouter);
 
-// Ejemplo de ruta para verificar que el servidor está en funcionamiento
-app.get("/", (res: Response) => {
-  res.send('<a href="/auth/google/android">Login with Google</a>');
-});
-
 // Manejo de errores
 app.use(errorHandler.boomError);
 app.use(errorHandler.internalError);

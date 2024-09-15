@@ -1,11 +1,35 @@
 {
-    "rewrites": [
-      { "source": "/auth/google/web", "destination": "/api/auth/google-web" },
-      { "source": "/auth/google/android", "destination": "/api/auth/google-android" },
-      { "source": "/auth/google/ios", "destination": "/api/auth/google-ios" },
-      { "source": "/auth/google/web/callback", "destination": "/api/auth/callback?platform=web" },
-      { "source": "/auth/google/android/callback", "destination": "/api/auth/callback?platform=android" },
-      { "source": "/auth/google/ios/callback", "destination": "/api/auth/callback?platform=ios" }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/auth/google/web",
+      "dest": "/api/auth/google-web"
+    },
+    {
+      "src": "/auth/google/android",
+      "dest": "/api/auth/google-android"
+    },
+    {
+      "src": "/auth/google/ios",
+      "dest": "/api/auth/google-ios"
+    },
+    {
+      "src": "/auth/google/web/callback",
+      "dest": "/api/auth/callback?platform=web"
+    },
+    {
+      "src": "/auth/google/android/callback",
+      "dest": "/api/auth/callback?platform=android"
+    },
+    {
+      "src": "/auth/google/ios/callback",
+      "dest": "/api/auth/callback?platform=ios"
+    }
+  ]
+}

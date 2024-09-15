@@ -1,12 +1,12 @@
 {
   "name": "futclash-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
-    "start": "node dist/index.js",  
+    "start": "node dist/index.js",
     "debug": "ts-node-dev --inspect=4321 src/index.ts",
-    "build": "tsc",  
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -26,6 +26,7 @@
     "@types/node": "^22.5.4",
     "@types/passport": "^1.0.16",
     "@types/passport-google-oauth20": "^2.0.16",
+    "@vercel/node": "^3.2.14",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.4"
   },
